@@ -21,3 +21,4 @@ addons:
   apt:
     packages:
       - g++-multilib
+      - libsecret-1-dev
