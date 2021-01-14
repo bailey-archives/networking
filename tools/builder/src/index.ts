@@ -11,12 +11,24 @@ export class Builder {
 		process.env.PATH += delim + bin;
 		process.env.FORCE_COLOR = 'true';
 
-		console.log('Starting builder for %s...', process.cwd());
-		console.log('Using bin path: %s (delimiter=%s)', bin, delim);
+		const args = process.argv.slice(2);
+		if (args.length === 0) args.push('build');
+		const command = args.shift()!.toLowerCase();
+		const isAll = command === 'all';
 
-		await this._clean();
-		await this._test();
-		await this._compile();
+		// Test
+		if (command === 'test' || isAll) {
+			await this._test();
+		}
+
+		// Build
+		if (command === 'build' || isAll) {
+			console.log('Starting builder for %s...', process.cwd());
+			console.log('Using bin path: %s (delimiter=%s)', bin, delim);
+
+			await this._clean();
+			await this._compile();
+		}
 	}
 
 	private async _clean() {
@@ -55,11 +67,15 @@ export class Builder {
 				],
 				{
 					shell: true,
-					stdio: ['pipe', 'inherit', 'pipe']
+					stdio: ['pipe', 'pipe', 'pipe']
 				}
 			);
 
-			proc.stderr.on('data', data => {
+			proc.stderr?.on('data', data => {
+				process.stdout.write(data);
+			});
+
+			proc.stdout?.on('data', data => {
 				process.stdout.write(data);
 			});
 
@@ -68,6 +84,7 @@ export class Builder {
 					return resolve();
 				}
 
+				console.log('Exiting with code %d.', code);
 				process.exit(code);
 			});
 		});

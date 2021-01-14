@@ -11,6 +11,14 @@
    * "rush my-global-command --help".
    */
   "commands": [
+    {
+      "commandKind": "bulk",
+      "name": "test",
+      "summary": "Runs tests for all packages.",
+      "description": "Executes the test script for each package in the project.",
+      "ignoreMissingScript": true,
+      "enableParallelism": true
+    }
     // {
     //   /**
     //    * (Required) Determines the type of custom command.

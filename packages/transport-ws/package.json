@@ -7,7 +7,8 @@
 	"main": "./lib/index.js",
 	"typings": "./lib/index.d.ts",
 	"scripts": {
-		"build": "builder"
+		"build": "builder",
+		"test": "builder test"
 	},
 	"dependencies": {
 		"@networking/common": "^1.0.0",
