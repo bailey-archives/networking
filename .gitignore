@@ -63,3 +63,8 @@ common/deploy/
 common/temp/
 common/autoinstallers/*/.npmrc
 **/.rush/temp/
+
+# Common toolchain intermediate files
+lib
+temp
+dist
