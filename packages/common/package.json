@@ -4,8 +4,8 @@
 	"license": "MIT",
 	"author": "Bailey Herbert <hello@bailey.sh> (https://bailey.sh)",
 	"repository": "github:baileyherbert/networking-server",
-	"main": "./dist/index.js",
-	"typings": "./dist/index.d.ts",
+	"main": "./lib/index.js",
+	"typings": "./lib/index.d.ts",
 	"scripts": {
 		"build": "tsc"
 	},
