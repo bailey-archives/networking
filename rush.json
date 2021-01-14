@@ -386,6 +386,10 @@
     {
       "packageName": "@networking/common",
       "projectFolder": "packages/common"
+    },
+    {
+      "packageName": "@networking/client",
+      "projectFolder": "packages/client"
     }
     // {
     //   /**
