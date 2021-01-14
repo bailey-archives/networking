@@ -1,0 +1,19 @@
+{
+	"name": "@networking/common",
+	"version": "1.0.0",
+	"license": "MIT",
+	"author": "Bailey Herbert <hello@bailey.sh> (https://bailey.sh)",
+	"repository": "github:baileyherbert/networking-server",
+	"main": "./dist/index.js",
+	"typings": "./dist/index.d.ts",
+	"scripts": {
+		"build": "tsc"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"typescript": "^4.1.2"
+	},
+	"files": [
+		"dist"
+	]
+}
