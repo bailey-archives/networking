@@ -34,7 +34,11 @@ export interface ConnectionOptions {
 	/**
 	 * The number of milliseconds we can be disconnected before the stored session token is erased. In effect, this
 	 * means that after loss of connection, we can only resume an existing session if reconnected within this time.
-	 * Setting this to `0` means that sessions can be resumed at any time.
+	 *
+	 * Setting this to `0` will disable this feature, allowing sessions to be resumed at any time.
+	 *
+	 * Note that both the client and server can specify their own values for this option. The smallest value between
+	 * the two will be used.
 	 *
 	 * Default: `900000` (15 minutes)
 	 */
