@@ -1,9 +1,9 @@
 import { MessageType } from '../../enums/network';
-import { EmitOptions } from '../../interfaces/options';
-import { Json } from '../../types/json';
-import { Promisable } from '../../types/utilities';
 import { EventEmitter, EventEmitterSchema as Events } from '../../utilities/events';
-import {
+import type { EmitOptions } from '../../interfaces/options';
+import type { Json } from '../../types/json';
+import type { Promisable } from '../../types/utilities';
+import type {
 	EventArgs,
 	EventNames,
 	BinaryEventArgs,

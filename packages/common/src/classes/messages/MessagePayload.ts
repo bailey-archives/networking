@@ -1,5 +1,5 @@
 import { MessagePayloadType } from '../../enums/network';
-import { Json } from '../../types/json';
+import type { Json } from '../../types/json';
 import { Buffer } from '../../utilities/buffer';
 
 export class MessagePayload {

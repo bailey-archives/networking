@@ -1,4 +1,4 @@
-import { Buffer } from '../../utilities/buffer';
+import type { Buffer } from '../../utilities/buffer';
 import { Transport } from './transport';
 
 /**

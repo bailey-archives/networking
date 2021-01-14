@@ -1,6 +1,6 @@
-import { MessagePayloadType, MessageType } from '../../enums/network';
-import { Json } from '../../types/json';
-import { Buffer } from '../../utilities/buffer';
+import type { MessagePayloadType, MessageType } from '../../enums/network';
+import type { Json } from '../../types/json';
+import type { Buffer } from '../../utilities/buffer';
 import { NetworkSerializer } from '../network/NetworkSerializer';
 import { MessagePayload } from './MessagePayload';
 

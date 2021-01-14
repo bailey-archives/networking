@@ -1,5 +1,5 @@
 import { Transport } from './transport';
-import { ServerConnectionTransport } from './transport.connection';
+import type { ServerConnectionTransport } from './transport.connection';
 
 /**
  * A transport is used to send and receive data. The client and server will provide an instance of their target

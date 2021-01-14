@@ -1,4 +1,4 @@
-import { Key } from '../types/utilities';
+import type { Key } from '../types/utilities';
 
 /**
  * A simple, cross-platform event emitter with a familiar interface.

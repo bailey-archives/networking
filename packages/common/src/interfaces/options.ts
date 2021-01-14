@@ -1,4 +1,4 @@
-import { Json } from '../types/json';
+import type { Json } from '../types/json';
 
 export interface ConnectionOptions {
 	/**

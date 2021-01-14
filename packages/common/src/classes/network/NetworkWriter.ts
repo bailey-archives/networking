@@ -1,12 +1,12 @@
 import { MessageType } from '../../enums/network';
-import { ConnectionOptions } from '../../interfaces/options';
-import { Json } from '../../types/json';
+import type { ConnectionOptions } from '../../interfaces/options';
+import type { Json } from '../../types/json';
 import { EventEmitter } from '../../utilities/events';
 import { PromiseCompletionSource } from '../../utilities/promises';
 import { NetworkTimeoutError } from '../errors/NetworkTimeoutError';
-import { Message } from '../messages/Message';
-import { ClientTransport } from '../transports/transport.client';
-import { ServerConnectionTransport } from '../transports/transport.connection';
+import type { Message } from '../messages/Message';
+import type { ClientTransport } from '../transports/transport.client';
+import type { ServerConnectionTransport } from '../transports/transport.connection';
 
 /**
  * The `NetworkWriter` class helps manage outgoing messages.
@@ -29,7 +29,7 @@ export class NetworkWriter extends EventEmitter<Events> {
 	/**
 	 * The connection emitter.
 	 */
-	private _connection: ConnectionEmitter;
+	//private _connection: ConnectionEmitter;
 
 	/**
 	 * The transport to use.
@@ -64,7 +64,7 @@ export class NetworkWriter extends EventEmitter<Events> {
 	public constructor(connection: ConnectionEmitter) {
 		super();
 
-		this._connection = connection;
+		//this._connection = connection;
 		this._transport = connection.options.transport;
 		this._connected = false;
 
@@ -214,7 +214,7 @@ export class NetworkWriter extends EventEmitter<Events> {
 	 * @param isResumed Whether or not the connection is resumed.
 	 * @param lastMessageId The last message identifier received by the remote if the connection is resumed.
 	 */
-	public setConnectionOpened(isResumed?: boolean, lastMessageId?: number) {
+	public setConnectionOpened(isResumed?: boolean/*, lastMessageId?: number*/) {
 		console.log('Writer: Connection opened.');
 
 		if (!this._connected) {

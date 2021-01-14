@@ -1,5 +1,5 @@
-import { Json } from '../types/json';
-import { Key } from '../types/utilities';
+import type { Json } from '../types/json';
+import type { Key } from '../types/utilities';
 
 /**
  * This interface is used to describe the types of data that the server and its clients can transfer in a TypeScript

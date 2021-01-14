@@ -1,4 +1,4 @@
-import { MessagePayloadType, MessageType } from '../../enums/network';
+import type { MessagePayloadType, MessageType } from '../../enums/network';
 import { Buffer } from '../../utilities/buffer';
 import { EventEmitter } from '../../utilities/events';
 import { PromiseCompletionSource } from '../../utilities/promises';
