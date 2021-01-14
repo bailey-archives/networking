@@ -57,7 +57,7 @@ export class Builder {
 		return new Promise<void>(resolve => {
 			const configPath = path.resolve(__dirname, '../configs/jest.config.js');
 
-			console.log('Running jest with config: %s\n', configPath);
+			// console.log('Running jest with config: %s\n', configPath);
 
 			const proc = spawn(
 				'jest' + (process.platform === 'win32' ? '.cmd' : ''),
