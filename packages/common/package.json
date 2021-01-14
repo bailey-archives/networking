@@ -7,10 +7,11 @@
 	"main": "./lib/index.js",
 	"typings": "./lib/index.d.ts",
 	"scripts": {
-		"build": "tsc"
+		"build": "builder"
 	},
 	"dependencies": {},
 	"devDependencies": {
+		"@networking/builder": "^1.0.0",
 		"typescript": "^4.1.2"
 	},
 	"files": [
