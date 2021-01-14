@@ -1,0 +1,21 @@
+{
+	"name": "@networking/builder",
+	"version": "1.0.0",
+	"description": "Tool for building and testing projects in this repo.",
+	"license": "MIT",
+	"bin": {
+		"builder": "bin/builder"
+	},
+	"scripts": {
+		"build": "rimraf ./lib/ && tsc"
+	},
+	"dependencies": {
+		"jest": "^26.6.3",
+		"typescript": "^4.1.2",
+		"ts-jest": "^26.4.4"
+	},
+	"devDependencies": {
+		"@types/node": "^14.14.12",
+		"rimraf": "^3.0.2"
+	}
+}

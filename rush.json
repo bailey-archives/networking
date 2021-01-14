@@ -383,15 +383,29 @@
    * 3. It's useful to have a centralized inventory of all projects and their important metadata.
    */
   "projects": [
+    /**
+     * These packages will be published to npm.
+     */
     {
       "packageName": "@networking/common",
       "projectFolder": "packages/common",
-      "shouldPublish": true
+      "shouldPublish": true,
+      "reviewCategory": "production"
     },
     {
       "packageName": "@networking/client",
       "projectFolder": "packages/client",
-      "shouldPublish": true
+      "shouldPublish": true,
+      "reviewCategory": "production"
+    },
+
+    /**
+     * These tools are used internally and will not be published.
+     */
+    {
+      "packageName": "@networking/builder",
+      "projectFolder": "tools/builder",
+      "reviewCategory": "tools"
     }
     // {
     //   /**
