@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es6",
+		"declaration": false,
+		"noEmit": true,
+		"downlevelIteration": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"inlineSourceMap": true,
+		"lib": ["dom"],
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"noImplicitReturns": true,
+		"importsNotUsedAsValues": "error",
+		"strict": true,
+		"skipLibCheck": true,
+		"sourceMap": false,
+		"types": ["jest"]
+	}
+}
