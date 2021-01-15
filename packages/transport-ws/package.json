@@ -11,13 +11,13 @@
 		"test": "builder test"
 	},
 	"dependencies": {
-		"@networking/common": "^1.0.0",
+		"@networking/common": "workspace:*",
 		"@types/ws": "^7.4.0",
 		"isomorphic-ws": "^4.0.1",
 		"ws": "^7.4.2"
 	},
 	"devDependencies": {
-		"@networking/builder": "^1.0.0",
+		"@networking/builder": "workspace:*",
 		"@types/jest": "^26.0.20",
 		"typescript": "^4.1.2"
 	},

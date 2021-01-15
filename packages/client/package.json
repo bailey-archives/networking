@@ -10,10 +10,10 @@
 		"build": "builder"
 	},
 	"dependencies": {
-		"@networking/common": "^1.0.0"
+		"@networking/common": "workspace:*"
 	},
 	"devDependencies": {
-		"@networking/builder": "^1.0.0",
+		"@networking/builder": "workspace:*",
 		"typescript": "^4.1.2"
 	},
 	"files": [
