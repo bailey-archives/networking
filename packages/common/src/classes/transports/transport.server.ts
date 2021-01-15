@@ -16,7 +16,7 @@ import type { ServerConnectionTransport } from './transport.connection';
  * - Transports do not need to implement things like automatic reconnection.
  * - Transports can perform a handshake, but the library will automatically perform its own handshake as well.
  */
-export abstract class ServerTransport extends Transport<EventSchema> {
+export abstract class ServerTransport extends Transport<ServerEventSchema> {
 
 	/**
 	 * Starts the server. Returns a `Promise` which resolves once the server has finished starting, or rejects with a
@@ -48,7 +48,7 @@ export abstract class ServerTransport extends Transport<EventSchema> {
 /**
  * This schema defines the types of events the client transport can emit.
  */
-type EventSchema = {
+export type ServerEventSchema = {
 	started: [];
 	stopped: [error?: Error];
 	connection: [connection: ServerConnectionTransport];

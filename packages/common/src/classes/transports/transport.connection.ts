@@ -7,7 +7,7 @@ import { Transport } from './transport';
  * When implementing this transport, you do not need to worry about connection resumption. When a client resumes an
  * existing connection, they will still generate a completely new `ServerConnectionTransport` instance.
  */
-export abstract class ServerConnectionTransport extends Transport<EventSchema> {
+export abstract class ServerConnectionTransport extends Transport<ConnectionEventSchema> {
 
 	/**
 	 * The remote address of the client. The format might differ by transport, and in some transports the remote
@@ -48,8 +48,8 @@ export abstract class ServerConnectionTransport extends Transport<EventSchema> {
 /**
  * This schema defines the types of events the client transport can emit.
  */
-type EventSchema = {
+export type ConnectionEventSchema = {
 	reconnected: [];
-	disconnected: [error?: Error];
-	data: [data: Uint8Array];
+	disconnected: [intentional: boolean, error?: Error];
+	data: [data: Buffer];
 };

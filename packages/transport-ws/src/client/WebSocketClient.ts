@@ -1,8 +1,8 @@
-import { Buffer, ClientTransport, TransportConnectError } from '@networking/common';
+import { Buffer, ClientTransport, TransportConnectError, TransportWriteError } from '@networking/common';
 import WebSocket, { ClientOptions } from 'isomorphic-ws';
-import type { ClientRequestArgs } from 'http';
+import { ClientRequestArgs } from 'http';
 
-export class WSClientTransport extends ClientTransport {
+export class WebSocketClient extends ClientTransport {
 
 	private _state = ClientState.None;
 	private _socket?: WebSocket;
@@ -30,8 +30,8 @@ export class WSClientTransport extends ClientTransport {
 	public constructor(address: string, protocols?: string | string[] | ClientOptions | ClientRequestArgs, options?: ClientOptions | ClientRequestArgs) {
 		super();
 
-		this._socket;//TEMP
 		this._address = address;
+
 		if (typeof protocols === 'string' || Array.isArray(protocols)) {
 			this._protocols = protocols;
 			this._options = options;
@@ -41,9 +41,16 @@ export class WSClientTransport extends ClientTransport {
 		}
 	}
 
+	/**
+	 * The URL of the target web socket server.
+	 */
+	public get address() {
+		return this._address;
+	}
+
 	public async connect(): Promise<void> {
 		if (this._state !== ClientState.None) {
-			return;
+			throw new Error('Cannot start client because it is already in an active state');
 		}
 
 		// Start the socket and wait for connection
@@ -51,17 +58,24 @@ export class WSClientTransport extends ClientTransport {
 	}
 
 	public async disconnect(): Promise<void> {
-		throw new Error('Method not implemented.');
+		return this.close();
 	}
 
 	public close(error?: Error): void {
-		error;
-		throw new Error('Method not implemented.');
+		if (this._socket) {
+			this._socket.close(error ? 1011 : 1000);
+			this._socket = undefined;
+			this._state = ClientState.None;
+			this._emit('disconnected', !error, error);
+		}
 	}
 
 	public async send(data: Buffer): Promise<void> {
-		data;
-		throw new Error('Method not implemented.');
+		if (this._state !== ClientState.Connected || !this._socket) {
+			throw new TransportWriteError('Cannot send data because the client is not active');
+		}
+
+		this._socket.send(data);
 	}
 
 	private async _createSocket() {
@@ -71,8 +85,7 @@ export class WSClientTransport extends ClientTransport {
 
 			// The socket client will emit the "open" event once a connection is established.
 			socket.onopen = () => {
-				socket.onclose = function() {};
-				socket.onerror = function() {};
+				this._listen(socket);
 				this._state = ClientState.Connected;
 				resolve(socket);
 			};
@@ -84,6 +97,45 @@ export class WSClientTransport extends ClientTransport {
 				reject(new TransportConnectError(e.message));
 			};
 		});
+	}
+
+	/**
+	 * Listens for incoming message, error, and close events on the socket.
+	 *
+	 * @param socket
+	 */
+	private _listen(socket: WebSocket) {
+		socket.onmessage = event => {
+			const { data } = event;
+
+			if (data instanceof Uint8Array) {
+				this._emit('data', Buffer.from(data));
+			}
+			else if (typeof data === 'string') {
+				this._emit('data', Buffer.from(data));
+			}
+			else {
+				this.close(new Error('Unknown data type'));
+			}
+		};
+
+		socket.onerror = event => {
+			this._socket = undefined;
+			this._state = ClientState.None;
+			this._emit('disconnected', false, event.error);
+
+			socket.onclose = () => {};
+			socket.onerror = () => {};
+		};
+
+		socket.onclose = event => {
+			this._socket = undefined;
+			this._state = ClientState.None;
+			this._emit('disconnected', event.code === 1000);
+
+			socket.onclose = () => {};
+			socket.onerror = () => {};
+		};
 	}
 
 }

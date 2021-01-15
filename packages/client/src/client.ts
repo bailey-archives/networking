@@ -44,15 +44,14 @@ export class Client<
 	private _nextMessageId: number = 0;
 
 	/**
+	 * Whether or not we are currently connected to the server.
+	 */
+	private _isConnected = false;
+
+	/**
 	 * Whether or not the connection should be persistent (automatic reconnection upon loss).
 	 */
 	private _isPersistent = false;
-
-	/**
-	 * Whether or not we are intentionally disconnecting from the server, and should not consider the connection
-	 * lost nor try to resume it.
-	 */
-	private _isDisconnecting = false;
 
 	/**
 	 * A map containing all registered request handlers on the client.
@@ -80,7 +79,7 @@ export class Client<
 		this._eventHandlers = new Map();
 
 		this._options.transport.on('connected', () => this._onConnectedTransportEvent());
-		this._options.transport.on('disconnected', error => this._onDisconnectedTransportEvent(error));
+		this._options.transport.on('disconnected', (i, error) => this._onDisconnectedTransportEvent(i, error));
 		this._options.transport.on('data', data => this._onDataTransportEvent(data));
 
 		// Bind writer events
@@ -89,6 +88,14 @@ export class Client<
 		// Bind reader events
 		this._reader.on('message', message => this._onMessageReaderEvent(message));
 		this._reader.on('error', error => this._onErrorReaderEvent(error));
+	}
+
+	/**
+	 * Equals `true` if the client is currently connected to the server, or `false` if the connection was lost or has
+	 * not yet been started or established.
+	 */
+	public get connected() {
+		return this._isConnected;
 	}
 
 	/**
@@ -152,7 +159,6 @@ export class Client<
 	 */
 	private async _connectOnce() {
 		try {
-			this._isDisconnecting = false;
 			await this._options.transport.connect();
 		}
 		catch (error) {
@@ -179,8 +185,6 @@ export class Client<
 	 */
 	public disconnect() {
 		this._isPersistent = false;
-		this._isDisconnecting = true;
-
 		return this.options.transport.disconnect();
 	}
 
@@ -261,6 +265,7 @@ export class Client<
 	 * Handles the `connected` event from the transport.
 	 */
 	private _onConnectedTransportEvent() {
+		this._isConnected = true;
 		this._writer.setConnectionOpened(true);
 		this._emit('connected', false);
 	}
@@ -270,23 +275,21 @@ export class Client<
 	 *
 	 * @param error
 	 */
-	private _onDisconnectedTransportEvent(error?: Error) {
+	private _onDisconnectedTransportEvent(intentional: boolean, error?: Error) {
 		// Clear the reader
 		this._reader.clear();
 
+		// Update internal state
+		this._isConnected = false;
+
 		// If there was an error, consider this a loss of connection
-		if (error) {
+		// We can also consider the connection lost if intentional is set to false
+		if (error || !intentional) {
 			this._writer.setConnectionLost();
 
 			if (this._isPersistent) {
 				setTimeout(() => this._connectPersistently(), this._options.reconnectDelay);
 			}
-		}
-
-		// If we weren't planning to disconnect, check if this was loss of connection
-		// The server might have disconnected us
-		else if (!this._isDisconnecting) {
-			// TODO: Implement this!
 		}
 
 		// Otherwise, the connection was closed
