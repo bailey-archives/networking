@@ -8,7 +8,7 @@ export class Builder {
 		const bin = path.resolve(__dirname, '../node_modules/.bin');
 		const delim = path.delimiter;
 
-		process.env.PATH += delim + bin;
+		process.env.PATH = bin + delim + process.env.PATH;
 		process.env.FORCE_COLOR = 'true';
 
 		const args = process.argv.slice(2);
