@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 import path from 'path';
-import fs from 'fs';
+// import fs from 'fs';
 
 export class Builder {
 
@@ -26,12 +26,12 @@ export class Builder {
 			console.log('Starting builder for %s...', process.cwd());
 			console.log('Using bin path: %s (delimiter=%s)', bin, delim);
 
-			await this._clean();
+			// await this._clean();
 			await this._compile();
 		}
 	}
 
-	private async _clean() {
+	/*private async _clean() {
 		const directories = [
 			path.resolve(process.cwd(), 'lib'),
 			path.resolve(process.cwd(), 'dist')
@@ -51,7 +51,7 @@ export class Builder {
 				console.error(err);
 			}
 		}
-	}
+	}*/
 
 	private _test() {
 		return new Promise<void>(resolve => {
